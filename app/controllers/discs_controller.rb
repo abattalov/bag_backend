@@ -3,21 +3,21 @@ class DiscsController < ApplicationController
 
   # GET /discs
   def index
-    @discs = Disc.all
+    discs = Disc.all
 
-    render json: @discs
+    render json: discs
   end
 
   # GET /discs/1
   def show
-    render json: @disc
+    render json: disc
   end
 
   # POST /discs
   def create
-    @disc = Disc.new(disc_params)
+    disc = Disc.new(disc_params)
 
-    if @disc.save
+    if disc.save
       render json: @disc, status: :created, location: @disc
     else
       render json: @disc.errors, status: :unprocessable_entity
@@ -26,7 +26,7 @@ class DiscsController < ApplicationController
 
   # PATCH/PUT /discs/1
   def update
-    if @disc.update(disc_params)
+    if disc.update(disc_params)
       render json: @disc
     else
       render json: @disc.errors, status: :unprocessable_entity
@@ -35,13 +35,15 @@ class DiscsController < ApplicationController
 
   # DELETE /discs/1
   def destroy
-    @disc.destroy
+    disc = Disc.find_by_id(params[:id])
+    disc.destroy
+    render json: {message: "Successfully Deleted #{disc.name}!"}
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_disc
-      @disc = Disc.find(params[:id])
+      disc = Disc.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
